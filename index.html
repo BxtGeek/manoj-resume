@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manoj Kumar - Terminal Resume</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #2e3436;
+      color: #eeeeec;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .title {
+      white-space: pre;
+      padding: 20px;
+      font-size: 14px;
+      color: #8ae234;
+      background-color: #2e3436;
+      text-align: center;
+    }
+    .subtitle {
+      font-size: 14px;
+      margin-top: -10px;
+      margin-bottom: 20px;
+      color: #729fcf;
+      text-align: center;
+    }
+    .terminal {
+      padding: 20px;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      height: calc(100vh - 300px);
+      width: 100%;
+      max-width: 900px;
+    }
+    .input-line {
+      display: flex;
+      align-items: center;
+    }
+    .prompt {
+      margin-right: 5px;
+    }
+    input {
+      background: transparent;
+      border: none;
+      color: #eeeeec;
+      outline: none;
+      font-family: inherit;
+      font-size: inherit;
+      width: 100%;
+    }
+    a {
+      color: #729fcf;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="title">
+  __  __                   _   _  __                          
+ |  \/  | __ _ _ __   ___ (_) | |/ /   _ _ __ ___   __ _ _ __ 
+ | |\/| |/ _` | '_ \ / _ \| | | ' / | | | '_ ` _ \ / _` | '__|
+ | |  | | (_| | | | | (_) | | | . \ |_| | | | | | | (_| | |   
+ |_|  |_|\__,_|_| |_|\___// | |_|\_\__,_|_| |_| |_|\__,_|_|   
+                        |__/                                  
+  </div>
+  <div class="subtitle">Type <strong>help</strong> to see available commands</div>
+  <div class="terminal" id="terminal">
+    <div id="output"></div>
+    <div class="input-line">
+      <span class="prompt">$</span>
+      <input type="text" id="input" autofocus autocomplete="off" />
+    </div>
+  </div>
+  <script>
+    const terminal = document.getElementById('terminal');
+    const input = document.getElementById('input');
+    const output = document.getElementById('output');
+
+    const commands = {
+      help: `Available commands:\n- summary\n- competencies\n- experience\n- education\n- certifications\n- projects\n- notes\n- download\n- clear\n- help`,
+
+      summary: `Manoj Kumar\n\ud83d\udcde +91-8354862582 | \ud83d\udce7 manokumar2684@gmail.com | LinkedIn: https://www.linkedin.com/in/manokumar2684\nLocation: Bangalore, India (Open to Relocation)\n\nExperienced IT Professional with 8+ years in Systems Administration, Virtualization, Storage, and Technical Support. Proficient in Linux/Unix environments, Nutanix, VMware, SAN/NAS technologies, and networking. Adept at diagnosing complex issues, optimizing system performance, and delivering customer-centric technical solutions. Seeking a challenging role in infrastructure support or systems engineering where I can leverage my deep technical acumen and strong problem-solving skills.`,
+
+      competencies: `Core Competencies\nSystems Administration: Linux (Ubuntu, CentOS, Rocky), Unix\nVirtualization: Nutanix (AOS, AHV, Prism), VMware vSphere, ESXi, vCenter\nStorage: SAN (EMC VNX, Clariion, Celerra, eNAS), NAS, LUN, RAID, Snapshot\nNetworking: TCP/IP, DHCP, DNS, Routing, CIFS/SMB, NFS, AFP, iSCSI\nTools & Scripting: Bash, Shell, Unisphere, Navisphere, Zoom/WebEx\nOthers: Performance Tuning, System Upgrades, Greenfield/Brownfield Deployment, Troubleshooting, Customer Support`,
+
+      experience: `Professional Experience\n\nSystem Reliability Engineer II\nNutanix, Bangalore | Jan 2024 – Present\n- Provide expert-level support for Nutanix AOS and AHV environments\n- Lead upgrades, architectural best practices, and troubleshooting\n- Administer Linux/Unix systems ensuring uptime and stability\n- Deliver root cause analysis with documentation\n- Maintain high CSAT through technical excellence\n\nTechnical Support Engineer II\nVMware, Bangalore | Aug 2022 – Dec 2023\n- Resolved issues across VMware vSphere stack\n- Delivered upgrade support and system migrations\n- Diagnosed network-related issues\n- Supported Linux/Unix platforms\n- Maintained communication with global customers\n\nTechnical Support Engineer II\nWipro Limited, Hyderabad | Sep 2017 – Aug 2022\n- Specialized in EMC storage troubleshooting\n- Resolved SAN/NAS issues\n- Level 2/3 Linux administration\n- Authored 8 Dell VNX knowledge articles\n- Delivered high-quality support to enterprise clients`,
+
+      education: `Education\nM.Tech – Computer Science\nBITS, Pilani | Dec 2017 – Dec 2021\n\nBachelor of Computer Applications (BCA)\nDayanand Academy of Management Studies | Mar 2014 – Mar 2017`,
+
+      certifications: `Certifications\n- Nutanix Certified Master – Multicloud Infrastructure 6\n- Nutanix Certified Professional – Multicloud Infrastructure 6\n- Certified Nutanix Support Specialist\n- Associate – Information Storage and Management v3\n- VMAX Family – Specialist Exam for Platform Engineers`,
+
+      projects: `Projects & Recognition\n- Book Author: Published a book on enterprise storage\n- IT Blogger: Share insights and tutorials\n- Contributor: Authored 8 Dell VNX knowledge base articles\n- Innovator: Blockchain-based storage model\n- Security Enthusiast: Publer’s bug bounty participant\n- Homelab Practitioner: Maintain live homelab`,
+
+      notes: `Additional Notes\n- Comfortable with remote/hybrid work\n- Passionate about cloud infrastructure and automation`,
+
+      download: `Download Resume here: <a href="https://www.corpit.org/resume" target="_blank">https://www.corpit.org/resume</a>`,
+
+      clear: 'clear'
+    };
+
+    function printOutput(text) {
+      const line = document.createElement('div');
+      line.innerHTML = text + '<br><br>';
+      output.appendChild(line);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        const cmd = input.value.trim();
+        printOutput(`<span style="color:#eeeeec;">$ ${cmd}</span>`);
+        if (commands[cmd]) {
+          if (cmd === 'clear') {
+            output.innerHTML = '';
+          } else {
+            printOutput(commands[cmd]);
+          }
+        } else {
+          printOutput(`<span style="color:#ef2929;">Command not found: ${cmd}</span>`);
+        }
+        input.value = '';
+      } else if (e.key === 'Tab') {
+        e.preventDefault();
+        const val = input.value;
+        const matches = Object.keys(commands).filter(cmd => cmd.startsWith(val));
+        if (matches.length === 1) {
+          input.value = matches[0] + ' ';
+        } else if (matches.length > 1) {
+          printOutput(matches.map(m => `- ${m}`).join('\n'));
+        }
+      }
+    });
+  </script>
+</body>
+</html>
+
